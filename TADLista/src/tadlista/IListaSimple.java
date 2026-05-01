@@ -19,6 +19,10 @@ public interface IListaSimple<T> {
     
     public void mostrar();
     
+    /*
+    PRE: La lista está ordenada
+    POS: Agrega un elemento de forma ordenada a la lista
+    */
     public void agregarOrd(T n);
     
     public void borrarElemento(T n);
@@ -35,4 +39,25 @@ public interface IListaSimple<T> {
     public T obtenerElemento(int indice);
     
     public void mostrarREC();
+    
+    
+    // Ejercicios práctico 7
+    
+    /*
+    Pre: La lista no es vacía.
+    Pos: Retorna el máximo elemento de la lista
+    */
+    T maximo ();
+    
+    /*
+    Pos: Retorna la cantidad de veces que aparece el elemento pasado como parámetro en la lista.
+    */
+    int contar (T elem);
+
+    /*
+    Pos: Retorna true sii la lista está ordenada.
+    */
+    boolean estaOrdenada ();
+
+    
 }

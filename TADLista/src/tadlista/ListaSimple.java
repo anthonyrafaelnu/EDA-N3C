@@ -1,6 +1,6 @@
 package tadlista;
 
-public class ListaSimple<T> implements IListaSimple<T>{
+public class ListaSimple<T extends Comparable> implements IListaSimple<T>{
     private Nodo<T> lista;
     private Nodo<T> fin;
     private int cantidad;
@@ -100,7 +100,23 @@ public class ListaSimple<T> implements IListaSimple<T>{
 
     @Override
     public void agregarOrd(T n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(this.esVacia() || n.compareTo(this.lista.getDato()) <= 0){
+            this.agregarInicio(n);
+        }else if(n.compareTo(this.fin.getDato()) >= 0){
+            this.agregarFinal(n);
+        }else{
+            Nodo<T> nuevo = new Nodo(n);
+            Nodo<T> aux = this.lista;
+            
+            while(aux.getSiguiente().getDato().compareTo(n) < 0){
+                aux = aux.getSiguiente();
+            }
+            
+            nuevo.setSiguiente(aux.getSiguiente());
+            aux.setSiguiente(nuevo);
+            
+            this.cantidad++;
+        }
     }
 
     @Override
@@ -140,6 +156,55 @@ public class ListaSimple<T> implements IListaSimple<T>{
     @Override
     public void mostrarREC() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    @Override
+    public T maximo() {
+        T max = this.lista.getDato();
+        
+        Nodo<T> aux = this.lista.getSiguiente();
+        
+        while(aux != null){
+            if(aux.getDato().compareTo(max) > 0){
+                max = aux.getDato();
+            }
+            aux = aux.getSiguiente();
+        }
+        
+        return max;
+    }
+
+    @Override
+    public int contar(T elem) {
+        int contador = 0;
+        
+        Nodo<T> aux = this.lista;
+        
+        while(aux != null){
+            if(aux.getDato().equals(elem)){
+                contador++;
+            }
+            aux = aux.getSiguiente();
+        }
+        
+        return contador;
+    }
+
+    @Override
+    public boolean estaOrdenada() {
+        
+        if(this.cantidad <= 1) return true;
+        
+        Nodo<T> aux = this.lista;
+        
+        while(aux.getSiguiente() != null){
+            if(aux.getDato().compareTo(aux.getSiguiente().getDato()) > 0) return false;
+            aux = aux.getSiguiente();
+        }
+        
+        return true;
     }
     
 }
